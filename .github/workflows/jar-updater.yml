@@ -1,0 +1,82 @@
+name: Jar Updater
+
+on:
+  workflow_dispatch:
+        
+  repository_dispatch:
+    types: [new-jar]
+
+jobs:
+  update-jar:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: 'main'
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+        
+    - name: npm install
+      run: |
+        npm install
+        npm install txml
+        npm install -g vsce 
+        npm install webpack
+        
+    - name: Get script from dev branch
+      run: |
+        git fetch origin development --depth 1
+        git checkout origin/development -- resources/jars/jars.json resources/jars/new-jar2.js
+      
+    - name: Log Info
+      run: echo "ConfigId $CONFIGID, Version $VERSION"
+      env:
+        CONFIGID: ${{ github.event.client_payload.configId }}
+        VERSION: ${{ github.event.client_payload.version }}
+
+    - name: Run new-jar2.js
+      run: node new-jar2.js configId=$CONFIGID version=$VERSION
+      working-directory: resources/jars
+      env:
+        VERSION: ${{ github.event.client_payload.version }}
+        CONFIGID: ${{ github.event.client_payload.configId }}
+        GITHUB_TOKEN: ${{ github.token }}
+      
+    - name: Bump version in package.json
+      id: bump-version
+      run: |
+        npm version patch --git-tag-version=false --commit-hooks=false
+        echo "version=$(npm pkg get version | tr -d '"')" >> $GITHUB_OUTPUT
+    
+    - name: Add to CHANGELOG-md
+      run: echo -e "### ${{ steps.bump-version.outputs.version }}\n- Update $CONFIGID to version $VERSION\n\n$(cat CHANGELOG.md)" > CHANGELOG.md
+      env:
+        VERSION: ${{ github.event.client_payload.version }}
+        CONFIGID: ${{ github.event.client_payload.configId }}
+        
+    - name: Build VSIX
+      run: |
+        npm run enableWebpack
+        vsce package
+        npm run disableWebpack
+
+    - name: Upload VSIX
+      uses: actions/upload-artifact@v3
+      with:
+        path: vdm-vscode-${{ steps.bump-version.outputs.version }}.vsix
+        name: vdm-vscode-${{ steps.bump-version.outputs.version }}.vsix
+    
+    - name: Git Status
+      run: git status
