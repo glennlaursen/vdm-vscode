@@ -1,0 +1,54 @@
+name: 'test-changelog'
+on:
+  workflow_dispatch:
+  
+permissions:
+  contents: write
+
+jobs:
+  test-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository
+      - uses: actions/checkout@v3
+      - run: touch change.md
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v3
+        with:
+          fromTag: "v1.3.19"
+          toTag: "v1.3.21"
+          outputFile: './change.md'
+          configurationJson: |
+            {
+              "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
+              "categories": [
+                {
+                    "title": "## 💬 Other",
+                    "labels": ["other"]
+                },
+                {
+                    "title": "## 📦 Dependencies",
+                    "labels": ["dependencies"]
+                }
+              ]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: echo changelog
+        run: |
+          cat change.md
+          
+          
+      - name: changelog-ci
+        uses: saadmk11/changelog-ci@v1.1.1
+        id: changelog-ci
+        with:
+          changelog_filename: 'CHANGELOG.md'
+          release_version: v1.3.21
+
+      - name: Get Changelog Output
+        run: |
+          echo "${{ steps.changelog-ci.outputs.changelog }}"
+          echo "${{ steps.changelog-ci.outputs.changelog }}" >> $GITHUB_STEP_SUMMARY
