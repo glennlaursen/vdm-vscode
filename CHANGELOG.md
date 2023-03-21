@@ -1,3 +1,5 @@
+- Update vdm-plantuml-plugin to version 0.1.1-SNAPSHOT
+
 ### 1.3.21
 - fix123
 ### 1.3.20
