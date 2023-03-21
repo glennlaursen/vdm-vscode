@@ -1,3 +1,8 @@
+# Version: v1.3.21
+
+* [#4](https://github.com/glennlaursen/vdm-vscode/pull/4): Update CHANGELOG.md
+
+
 ### 1.3.21
 - fix123
 ### 1.3.20
