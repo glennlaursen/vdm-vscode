@@ -1,3 +1,5 @@
+- Update vdm2isa to version 1.2.0-SNAPSHOT
+
 - Update vdmj to version 4.5.0-SNAPSHOT
 
 - Update vdmj to version 4.5.0-SNAPSHOT
