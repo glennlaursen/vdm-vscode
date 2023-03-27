@@ -4,13 +4,16 @@ on:
   repository_dispatch:
     types: [new-jar]
     
-  
 permissions:
   contents: write
 
 jobs:
   update-jar:
     runs-on: ubuntu-latest
+    
+    env:
+      CONFIGID: ${{ github.event.client_payload.configId }}
+      VERSION: ${{ github.event.client_payload.version }}
 
     steps:
     - uses: actions/checkout@v3
@@ -33,23 +36,15 @@ jobs:
       
     - name: Log Info
       run: echo "ConfigId $CONFIGID, Version $VERSION"
-      env:
-        CONFIGID: ${{ github.event.client_payload.configId }}
-        VERSION: ${{ github.event.client_payload.version }}
 
     - name: Run new-jar2.js
       run: node new-jar2.js configId=$CONFIGID version=$VERSION
       working-directory: resources/jars
       env:
-        VERSION: ${{ github.event.client_payload.version }}
-        CONFIGID: ${{ github.event.client_payload.configId }}
         GITHUB_TOKEN: ${{ github.token }}
     
     - name: Add to CHANGELOG.md
       run: echo -e "- Update $CONFIGID to version $VERSION\n\n$(cat CHANGELOG.md)" > CHANGELOG.md
-      env:
-        VERSION: ${{ github.event.client_payload.version }}
-        CONFIGID: ${{ github.event.client_payload.configId }}
     
     - name: Git Commit & Push
       run: |
@@ -58,6 +53,3 @@ jobs:
         git add resources/jars/*.jar CHANGELOG.md
         git commit -m "[Automated action] Update $CONFIGID to version $VERSION"
         git push
-      env:
-        VERSION: ${{ github.event.client_payload.version }}
-        CONFIGID: ${{ github.event.client_payload.configId }}
