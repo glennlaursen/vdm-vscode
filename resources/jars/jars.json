@@ -1,42 +1,5 @@
 {
-  "jars": [
-    {
-      "name": "vdm-plantuml-plugin",
-      "repository": "glennlaursen/vdm-plantuml-plugin",
-      "version": "0.1.1-SNAPSHOT",
-      "classifier": "",
-      "destDir": "./plugins/"
-    },
-    {
-      "name": "vdm2isa",
-      "repository": "glennlaursen/VDM_Toolkit",
-      "version": "4.5",
-      "classifier": "",
-      "destDir": "./plugins/"
-    },
-    {
-      "name": "javagen",
-      "repository": "overturetool/overture",
-      "version": "3.0.3-SNAPSHOT",
-      "classifier": "jar-with-dependencies",
-      "destDir": "./tools/"
-    },
-    {
-      "name": "vdmj",
-      "repository": "glennlaursen/vdmj",
-      "version": "4.5.0-SNAPSHOT",
-      "classifier": "",
-      "destDir": "./vdmj/"
-    },
-    {
-      "name": "vdmj_hp",
-      "repository": "glennlaursen/vdmj",
-      "version": "4.5.0-P-SNAPSHOT",
-      "classifier": "",
-      "destDir": "./vdmj_hp/"
-    }
-  ],
-  "jars2": {
+  "jars": {
     "vdmj": {
       "repository": "glennlaursen/vdmj",
       "version": "4.5.0-SNAPSHOT",
