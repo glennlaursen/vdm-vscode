@@ -2,7 +2,6 @@
   "jars": {
     "vdmj": {
       "repository": "glennlaursen/vdmj",
-      "version": "4.5.0-SNAPSHOT",
       "groupId": "dk.au.ece.vdmj",
       "jarDestinations": [
         {
@@ -19,7 +18,6 @@
     },
     "vdmj_hp": {
       "repository": "glennlaursen/vdmj",
-      "version": "4.5.0-P-SNAPSHOT",
       "groupId": "dk.au.ece.vdmj",
       "jarDestinations": [
         {
@@ -36,7 +34,6 @@
     },
     "vdm-plantuml-plugin": {
       "repository": "glennlaursen/vdm-plantuml-plugin",
-      "version": "0.1.1-SNAPSHOT",
       "groupId": "dk.au.ece.vdmj",
       "jarDestinations": [
         {
@@ -47,7 +44,6 @@
     },
     "javagen": {
       "repository": "overturetool/overture",
-      "version": "3.0.3-SNAPSHOT",
       "groupId": "org.overturetool.core.codegen",
       "classifier": "jar-with-dependencies",
       "jarDestinations": [
@@ -59,7 +55,6 @@
     },
     "fmu-import-export": {
       "repository": "overturetool/overture-fmu",
-      "version": "0.2.19-SNAPSHOT",
       "groupId": "org.overturetool.fmi.core",
       "classifier": "jar-with-dependencies",
       "jarDestinations": [
@@ -71,7 +66,6 @@
     },
     "vdm2isa": {
       "repository": "glennlaursen/VDM_Toolkit",
-      "version": "1.2.0-SNAPSHOT",
       "groupId": "vdmtoolkit",
       "jarDestinations": [
         {
