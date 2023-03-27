@@ -48,10 +48,10 @@ async function downloadWithClassifier(repository, groupId, artifactId, version, 
 
     let urlToPackage = '';
 
-    // Fetch metadata for this version of the package.
-    let url = `https://maven.pkg.github.com/${repository}/${groupIdUrl}/${artifactIdUrl}/${version}/maven-metadata.xml`;
-
     if (version.includes("SNAPSHOT")) {
+
+        // Fetch metadata for this version of the package.
+        let url = `https://maven.pkg.github.com/${repository}/${groupIdUrl}/${artifactIdUrl}/${version}/maven-metadata.xml`;
 
         let data = await (fetch(url, { headers: { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } }).then(response => response.text()).then(str => txml.parse(str)));
         // Parse XML to find timestamp & buildNumber.
