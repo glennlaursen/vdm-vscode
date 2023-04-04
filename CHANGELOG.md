@@ -4,6 +4,8 @@
 
 - Update vdm-plantuml-plugin to version 0.1.1-SNAPSHOT
 
+- Update vdm-plantuml-plugin to version 0.1.1-SNAPSHOT
+
 - Update vdm-plantuml-plugin to version 0.1.1
 
 - Update vdm-plantuml-plugin to version 0.1.1
