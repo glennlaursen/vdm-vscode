@@ -1,6 +1,11 @@
 name: Create VSIX
 
-on: push
+on: 
+  push:
+  workflow_run:
+    workflows: [Jar Updater]
+    types:
+      - completed
 
 permissions:
   contents: write
