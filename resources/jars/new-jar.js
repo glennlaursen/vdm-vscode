@@ -2,10 +2,11 @@ let data = require('./jars.json');
 const execSync = require('child_process').execSync;
 const txml = require('txml');
 const fs = require("fs");
+const glob = require("glob")
 
-var args = process.argv.slice(2);
+const args = process.argv.slice(2);
 
-if (args.length < 1) {
+if (args.length < 2) {
     throw new Error("Arguments required");
 }
 
@@ -19,7 +20,17 @@ if (!jarInfo) {
     throw new Error("No config found.");
 }
 
+// Clean old versions of jars
+jarInfo.jarDestinations.forEach((dest) => {
+    const files = glob.GlobSync(`${dest.destDir}/{${dest.artifactIds},'unused-filename'}-*.jar`).found;
 
+    for (const f of files) {
+        console.log('Deleting file: ', f);
+        fs.unlinkSync(f);
+    }
+});
+
+// Download new versions of jars
 jarInfo.jarDestinations.forEach((dest) => {
     dest.artifactIds.split(',').forEach(async (artifactId) => {
         if (jarInfo.classifier && jarInfo.classifier.length > 0) {
@@ -46,7 +57,7 @@ async function downloadWithClassifier(repository, groupId, artifactId, version, 
     const groupIdUrl = groupId.replaceAll('.', '/');
     const artifactIdUrl = artifactId.replaceAll('.', '/');
 
-    let urlToPackage = '';
+    let urlToPackage;
 
     if (version.includes("SNAPSHOT")) {
 
