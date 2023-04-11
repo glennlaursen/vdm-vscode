@@ -3,6 +3,10 @@ name: Jar Updater
 on:  
   repository_dispatch:
     types: [new-jar]
+  workflow_run:
+    workflows: [Jar Updater]
+    types:
+      - completed
     
 permissions:
   contents: write
