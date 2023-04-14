@@ -1,3 +1,4 @@
+### 1.3.24
 - Update vdm-plantuml-plugin to version 0.1.2-SNAPSHOT
 
 - Update vdm2isa to version 1.2.0-SNAPSHOT
